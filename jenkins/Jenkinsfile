@@ -14,8 +14,8 @@ pipeline {
                 // Initialize Terraform, show plan, and apply it in a single command
                 sh '''
                     terraform init
-                    terraform plan -out=tfplan
-                    terraform apply -auto-approve tfplan
+                    terraform plan 
+                    terraform apply -auto-approve 
                 '''
             }
         }
