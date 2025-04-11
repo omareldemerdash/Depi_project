@@ -1,6 +1,6 @@
 services:
   db:
-    image: inks-db:latest
+    image: omareldemerdash28/inks-db:latest
     environment:
       MYSQL_DATABASE: inks_db
       MYSQL_ROOT_PASSWORD: your_root_password
@@ -14,7 +14,7 @@ services:
       - "3306:3306"
 
   app:
-    image: inks-app:latest
+    image: omareldemerdash28/inks-app:latest
     ports:
       - "3000:3000"
     environment:
