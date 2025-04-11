@@ -1,0 +1,130 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests History</title>
+</head>
+<link href="assets/css/report.css" rel="stylesheet" id="bootstrap-css">
+<div class="col-md-12">   
+    <div class="row">
+           
+           <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                              
+                <table>
+                    <tr>
+                        <td><img src="assets/img/logo.jpg" alt="MGDC" height="100"/></td>
+                        <td><div  style="width:50px"></div></td>
+                        <td bgcolor="white" style="width:100%;"><center><h1 >Requests History</h1></center></td>
+                    </tr>
+                    </table>
+                <hr>
+                 
+                <label for="date"><strong>Start date: </strong></label>
+                <input type="date" id="date" style="outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;">
+                <label for="date2"><strong>End date: </strong></label>
+                <input type="date" id="date2" style="outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;">
+                
+                <button id="filter" style=" width: 200px;  outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem; background-color: brown; color: aliceblue;" onclick="filter()"><strong>Filter</strong> </button>
+
+               <div>
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>Operation Id</th>
+                               <th>Employee</th>
+                               <th>Printer</th>
+                               <th>Ink</th>
+                               <th>Quantity</th>
+                               <th>Date</th>
+                           </tr>
+                       </thead>
+                       <tbody id="reportData"> </tbody>
+                   </table>
+               </div>
+
+               <div style="height: 100;"></div>
+
+
+               <div class="row">
+                   <div class="receipt-header receipt-header-mid receipt-footer">
+                       <div class="col-xs-8 col-sm-8 col-md-8 text-left">
+                           <div class="receipt-right">
+                               <p><b id='date-time'>Date : </b></p>
+                               <h2><strong>signature: </strong></h2>>
+                           </div>
+                       </div>
+                       <div class="col-xs-4 col-sm-4 col-md-4">
+                       </div>
+                   </div>
+               </div>
+               
+           </div>    
+       </div>
+   </div>
+
+   <script>
+    var dt = new Date();
+    document.getElementById('date-time').innerHTML=dt;
+    data= <%- JSON.stringify(requests) %>;
+    console.log(<%- JSON.stringify(requests) %>);
+
+    var table = document.getElementById("reportData");
+    table.innerHTML="";
+    var tr="";
+    data.forEach(x=>{
+        //var d = new Date(x.Request_time).toString().split("GMT")[0];
+        var d = new Date(x.Request_time)
+        d = d.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'})
+        tr+='<tr>';
+        tr+='<td><h3><center><a href="/request_report2/'+ x.Request_id+'">' + x.Request_id +'</a></center></h3></td>'
+            +'<td><h3><center>'+ x.Employee_name +'</center></h3></td>'
+            +'<td><h3><center>'+ x. Printer_model+'</center></h3></td>'
+            +'<td><h3><center>'+ x. Ink_model+'</center></h3></td>'
+            +'<td><h3><center>'+ x.Request_quantity+'</center></h3></td>'
+            +'<td><h3><center>'+ d +'</center></h3></td>';
+
+        tr+='</tr>'
+
+    })
+    table.innerHTML+=tr;
+
+    function loadData(year, year2){
+        var table = document.getElementById("reportData");
+        console.log(year+"  "+year2)
+        table.innerHTML="";
+            var tr="";
+            data.forEach(x=>{
+                //var d = new Date(x.Request_time).toString().split("GMT")[0];
+                var d = new Date(x.Request_time)
+                //d = d.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'})
+                if (d>= year && d<= year2){
+                    tr+='<tr>';
+                    tr+='<td><h3><center><a href="/request_report2/'+ x.Request_id+'">' + x.Request_id +'</a></center></h3></td>'
+                    +'<td><h3><center>'+ x.Employee_name +'</center></h3></td>'
+                    +'<td><h3><center>'+ x. Printer_model+'</center></h3></td>'
+                    +'<td><h3><center>'+ x. Ink_model+'</center></h3></td>'
+                    +'<td><h3><center>'+ x.Request_quantity+'</center></h3></td>'
+                    +'<td><h3><center>'+ d.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'}) +'</center></h3></td>';
+
+                tr+='</tr>'
+                }
+
+
+            })
+            table.innerHTML+=tr;
+
+    }
+
+    function filter(){
+        var date = new Date(document.getElementById("date").value)
+        var date2 = new Date(document.getElementById("date2").value)
+        //date = date.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
+        //date2 = date2.toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'});
+        if(date != "Invalid Date" &&  date2 != "Invalid Date"){
+            loadData(date,date2)
+        }else{
+            window.open("/requestHistory","_self");
+        }
+        
+    }
+
+    </script>

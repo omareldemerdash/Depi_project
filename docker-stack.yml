@@ -1,0 +1,32 @@
+services:
+  db:
+    image: inks-dbtest:1.1
+    environment:
+      MYSQL_DATABASE: inks_db
+      MYSQL_ROOT_PASSWORD: your_root_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  app:
+    image: inks-apptest:1.1
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: your_root_password
+      DB_NAME: inks_db
+    deploy:
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+
+volumes:
+  db_data:
+

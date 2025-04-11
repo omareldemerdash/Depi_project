@@ -1,0 +1,21 @@
+pipeline {
+  agent any
+  environment {
+        CREDENTIALS = credentials('dockerhub')
+  }
+  stages {
+    stage('build') {
+      steps {
+        sh '''
+        docker build -t omareldemerdash28/inks-db:$BUILD_NUMBER .;
+	docker build -t omareldemerdash28/inks-app:$BUILD_NUMBER .;
+        echo $CREDENTIALS_PSW | docker login -u $CREDENTIALS_USR --password-stdin;
+        docker push omareldemerdash28/inks-db:$BUILD_NUMBER
+        docker push omareldemerdash28/inks-app:$BUILD_NUMBER
+        '''
+
+      }
+    }
+
+  }
+}

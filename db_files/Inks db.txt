@@ -1,0 +1,75 @@
+C:\wamp64\bin\mysql\mysql8.0.31\bin>mysql -u root
+create database Inks_db; 
+use Inks_db;
+
+create table Printers
+(
+Printer_id integer auto_increment primary key,
+Printer_model varchar(40) not null
+);
+
+#Insert into Printers (Printer_model) values ('Hp Color laserjet 5225');
+
+create table Inks
+(
+Ink_id integer auto_increment primary key,
+Ink_model varchar(40) not null,
+Start_quantity integer not null,
+Now_quantity integer not null,
+Printer_id integer references Printers(Printer_id)	
+);
+
+#Insert into Inks (Ink_model, Start_quantity, Now_quantity, Printer_id) values ('8989m', 10, 10, 1)
+
+create table Departments
+(
+Department_id integer auto_increment primary key,
+Department_name varchar(40) not null
+);
+
+#Insert into Departments (Department_name) values ('Financial')
+
+create table Employees
+(
+Employee_id integer auto_increment primary key,
+Employee_name varchar(40) not null,
+Department_id integer references Departments(Department_id)
+);
+
+#Insert into Employees(Employee_name, Department_id) values ('Ahmed Reda', 1)
+
+create table Adds
+(
+Add_id integer auto_increment primary key,
+Add_quantity integer not null,
+Ink_id integer references Inks(Ink_id),
+Add_time datetime not null	
+);
+
+#Insert into Adds(Add_quantity, Ink_id, Add_time) values (3, 1, Now())
+#Update Inks set Now_quantity = Inks.Now_quantity + Add_quantity where Ink_id = (select Ink_id from Adds where Adds.Ink_id = Inks.Ink_id);
+
+create table Requests
+(
+Request_id integer auto_increment primary key,
+Employee_id integer references Employees(employee_id),
+Printer_id integer references Printers(Printer_id),
+Ink_id integer references Inks(Ink_id),
+Request_quantity integer not null,
+Request_time datetime not null
+);
+
+#Insert into Requests(Employee_id, Printer_id, Ink_id, Request_quantity, Request_time) values (1, 2, 1, 2, Now())
+#Update Inks set Now_quantity = Inks.Now_quantity - 1 where Inks.Ink_id = (select Ink_id from Requests where Requests.Ink_id = Inks.Ink_id);
+
+create table Employees_Printers
+(
+Employee_id integer references Employees(employee_id),
+Printer_id integer references Printers(Printer_id)
+);
+
+insert into Employees_Printers(Employee_id, Printer_id) values (1, 1);
+
+select * from Printers;
+---------------------
+Alter table Printers Modify column Printer_id integer auto_increment primary key; 

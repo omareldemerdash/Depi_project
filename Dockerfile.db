@@ -1,0 +1,9 @@
+# mysql image
+FROM mysql:5.7 as db
+
+# Set environment variables
+ENV MYSQL_DATABASE=inks_db
+ENV MYSQL_ROOT_PASSWORD=your_root_password
+
+COPY ./db_files/inks_db.sql /docker-entrypoint-initdb.d/
+

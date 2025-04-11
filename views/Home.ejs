@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MGDC Inks M.S.</title>
+</head>
+<link href="assets/css/report.css" rel="stylesheet" id="bootstrap-css">
+<div class="col-md-12">   
+   <div class="row">
+          
+          <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                             
+            <body >
+
+                  <table>
+                     <tr>
+                     <td><img src="assets/img/logo.jpg" alt="MGDC" height="150"/></td>
+                     <td><div  style="width:50px"></div></td>
+                     <td bgcolor="white" style="width:40%;"><center><h1 >MGDC Inks M.S.</h1></center></td>
+                     <td>
+                        <div class="btn-group" style="width:100%; ">
+                           <button id="button8"   style="border-top-left-radius : 5px; border-bottom-left-radius : 5px;" onclick="reportAll()"><h2>Report All</h2> </button>
+                           <button id="button10"  onclick="requestHistory()"><h2>Requests logs</h2> </button>
+                           <button id="button11"  onclick="addHistory()"><h2>Adds logs</h2> </button>
+                           <button id="button12"  style="border-top-right-radius : 5px; border-bottom-right-radius : 5px;" onclick="home()"><h2>Home</h2> </button>
+                        </div>
+                     </td>
+                     
+                    <!--  <td><button id="button8" style=" white-space: nowrap; text-align: center; color: #ffffff; background-color: #66b155; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;" onclick="reportAll()"><h2>Report All</h2> </button></td>
+                     <td><button id="button10" style=" white-space: nowrap; text-align: center; color: #ffffff; background-color: #66b155; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;" onclick="requestHistory()"><h2>Requests logs</h2> </button></td>
+                     <td><button id="button11" style=" white-space: nowrap; text-align: center; color: #ffffff; background-color: #66b155; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;" onclick="addHistory()"><h2>Adds logs</h2> </button></td>
+                     <td><button id="button12" style=" white-space: nowrap; text-align: center; color: #ffffff; background-color: #66b155; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;" onclick="home()"><h2>Home</h2> </button></td>
+ -->
+                     </tr>
+                  </table>
+               <hr>
+               <div style="padding: 10px;"></div>
+
+               <label style=" font-weight: 900; font-size: larger; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" for="arrayDropdown">Choose Department:</label> 
+               <select id="arrayDropdown" style="font-weight: 900; font-size: larger; font-family: Verdana, Geneva, Tahoma, sans-serif; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;"></select>
+
+               <label style="font-weight: 900; font-size: larger; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" for="arrayDropdown2">Choose Employee:</label> 
+               <select id="arrayDropdown2" style="font-weight: 900; font-size: larger; font-family: Verdana, Geneva, Tahoma, sans-serif; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;"></select>
+
+               <label style="font-weight: 900; font-size: larger; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" for="arrayDropdown3">Choose Printer: </label> 
+               <select id="arrayDropdown3" style="font-weight: 900; font-size: larger; font-family: Verdana, Geneva, Tahoma, sans-serif; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;"></select>
+               <div id='output3' style="background-color: gainsboro"></div>
+               
+               <div style="padding: 10px;"></div>
+               <hr>
+               <div style="padding: 10px;"></div>
+
+               <label style="font-weight: 900; font-size: larger; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" for="arrayDropdown4">Choose Ink Model:</label> 
+               <select id="arrayDropdown4" style="font-weight: 900; font-size: larger; font-family: Verdana, Geneva, Tahoma, sans-serif; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;"></select>
+               <button class="button4" type="button4" onclick="checkInkQuanity()"> <Strong>Check Quanity</Strong> </button>
+               <div id='output4' style="font-weight: 900; font-size: larger; background-color: gainsboro; margin: 0px 0px 15px 0px; padding-left: 10px;"></div>
+               <div style="padding: 10px;"></div>
+               <hr>
+               <div style="padding: 10px;"></div>
+
+               <label style="font-weight: 900; font-size: larger; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" for="quantity">Quantity:</label>
+               <input type="number" id="quantity" name="quantity" style=" font-weight: 900; font-size: larger; font-family: Verdana, Geneva, Tahoma, sans-serif; outline:none;padding: 0.4rem;border-radius: 5px; border: none; box-shadow: 0 0 10px rgb(202, 202, 202);margin: 0.8rem;">
+               
+               <div style="padding: 10px;"></div>
+               <hr>
+               <div style="padding: 10px;"></div>
+
+               <button class="actionButton" id="button5" onclick="request()"><h2>Request (-)</h2> </button>
+               <button class="actionButton" id="button6" onclick="add()"><h2>ADD (+)</h2> </button>
+               <button class="printButton"  id="button7" disabled onclick="print_request()"><h2>Print Request</h2>  </button>
+               <button class="printButton"  id="button9" disabled onclick="print_add()"><h2>Print Add</h2> </button>
+               
+               <div id='output5' type="number"  style="font-weight: 900; font-size: larger; background-color: gainsboro; margin: 15px 0px 15px 0px; padding-left: 10px;"></div>
+
+
+               <script>
+
+                  var requestResponse;
+                  var addResponse;
+
+                  var arr = <%- JSON.stringify(departments_names) %>;
+                  
+                  var options="";
+                  arr.map((op,i)=>{
+                     options+=`<option value="${op}" id="${i}" style="border-radius: 5px;"">${op}</option>`
+                  })
+                  document.getElementById("arrayDropdown").innerHTML=options;
+
+                  
+                  var arr2 = <%- JSON.stringify(employees_names) %>;
+
+                  var options2="";
+                  arr2.map((op,i)=>{
+                     options2+=`<option value="${op}" id="${i}" style="border-radius: 5px;"">${op}</option>`
+                  })
+                  document.getElementById("arrayDropdown2").innerHTML=options2;
+
+            /*       function Result2() {
+                     document.getElementById("output2").innerHTML =  document.getElementById("arrayDropdown2").value;    
+                  } */
+                  var arr3 = []
+                  printers = <%- printers_models %>
+                  printers.forEach (element => {
+                        arr3.push(element.printer_model);
+                  });
+               
+                  var options3="";
+                  options3+=`<option style="border-radius: 5px;"">Select one</option>`;
+                  arr3.map((op,i)=>{
+                     options3+=`<option value="${op}" id="${i}" style="border-radius: 5px;"">${op}</option>`
+                  })
+                  document.getElementById("arrayDropdown3").innerHTML=options3;
+
+                  
+                  select = document.getElementById("arrayDropdown3");
+                  select.addEventListener('change', () => {
+                     var arr4 = []
+                     document.getElementById("output4").innerHTML="";
+                     if(select.options[select.selectedIndex].value == "Select one"){
+                        document.getElementById("arrayDropdown4").innerHTML="";
+                     }
+                     
+                     printers.forEach (element => {
+                        if(element.printer_model == select.options[select.selectedIndex].value){
+                           
+                           inks = <%- inks_models %>
+                           inks.forEach (element2 => {
+                              if(element2.printer_id == element.Printer_id){
+                                 arr4.push(element2.ink_model);
+                                 var options4="";
+                                 arr4.map((op,i)=>{
+                                 options4+=`<option value="${op}" id="${i}" style="border-radius: 5px;"">${op}</option>`
+                                 })
+                                 document.getElementById("arrayDropdown4").innerHTML=options4;
+
+                              }
+                        });
+                     }
+                  });
+                     
+                  })  
+
+
+                  function checkInkQuanity() {
+
+                     if(document.getElementById("arrayDropdown4").innerHTML != ""){
+                        console.log(document.getElementById("arrayDropdown4").value)
+                        var obj = {ink : document.getElementById("arrayDropdown4").value};
+                        console.log(obj);
+                        fetch("/check",{
+                           method:"POST",
+                           headers:{"Content-type":"application/json"},
+                           body:JSON.stringify(obj)
+                           }).then((r)=>r.json()).then((response)=> document.getElementById("output4").innerHTML= response);
+                     }       
+                  }
+
+                  function request() {
+                     var obj={
+                              department: document.getElementById("arrayDropdown").value,
+                              employee : document.getElementById("arrayDropdown2").value,
+                              printer : document.getElementById("arrayDropdown3").value,
+                              ink : document.getElementById("arrayDropdown4").value,
+                              quanity: document.getElementById("quantity").value
+                           };
+                     if(Number(obj.quanity) > 0 && parseInt(document.getElementById("output4").innerHTML)>= obj.quanity){
+                        fetch("/request",{
+                           method:"POST",
+                           headers:{"Content-type":"application/json"},
+                           body:JSON.stringify(obj)
+                           }).then((r)=>r.json()).then(
+                              function (response){ 
+                                 document.getElementById("output5").innerHTML = "Successfully requested! ID: " + response;
+                                 requestResponse = response;
+                           });
+                           document.getElementById("button7").disabled = false;
+                           document.getElementById("button7").style.background='#66b155';
+
+                           document.getElementById("button9").disabled = true;
+
+
+
+                     }else{
+                        document.getElementById("output5").innerHTML = "Not Valid!";
+                        document.getElementById("button7").disabled = true;
+                        document.getElementById("button9").disabled = true;
+
+
+                     }
+
+                  }
+
+                           
+                  function add() {
+                     var obj={
+                              ink : document.getElementById("arrayDropdown4").value,
+                              quanity: document.getElementById("quantity").value
+                           };
+                     if(Number(obj.quanity) > 0){
+                        fetch("/add",{
+                           method:"POST",
+                           headers:{"Content-type":"application/json"},
+                           body:JSON.stringify(obj)
+                           }).then((r)=>r.json()).then(
+                              function (response){ 
+                                 document.getElementById("output5").innerHTML = "Successfully added! ID: " + response;
+                                 addResponse = response;
+                           });
+                           document.getElementById("button7").disabled = true;
+                           document.getElementById("button9").disabled = false;
+                           document.getElementById("button9").style.background='#66b155';
+
+                     }else{
+                        document.getElementById("output5").innerHTML = "Not Valid!";
+                        document.getElementById("button9").disabled = true;
+                        document.getElementById("button7").disabled = true;
+
+
+                     }
+                              
+                  }
+
+                  function print_request(){
+                     document.getElementById("output5").innerHTML = "Print request function!"
+                     //window.open("/request_report", '_blank').focus();
+                     var id = requestResponse;
+                     window.open("/request_report2/"+id, '_blank').focus();
+
+                  }
+
+                  function print_add(){
+                     document.getElementById("output5").innerHTML = "Print add function!"
+                     //window.open("/add_report", '_blank').focus();
+                     var id = addResponse;
+                     window.open("/add_report2/"+id, '_blank').focus();
+
+
+                  }
+
+               
+                  function reportAll(){
+                     document.getElementById("output5").innerHTML = "Report All Inks!"
+                     window.open("/reportAll", '_blank').focus();
+
+                  } 
+                  
+                  function requestHistory(){
+                     document.getElementById("output5").innerHTML = "Requests History!"
+                     window.open("/requestHistory", '_blank').focus();
+                  }      
+                  
+                  function addHistory(){
+                     document.getElementById("output5").innerHTML = "Adds History!"
+                     window.open("/addHistory", '_blank').focus();
+                  }  
+
+                  function home(){
+                     document.getElementById("output5").innerHTML = "Home Page!"
+                     window.open("/", '_blank').focus();
+                  }  
+
+               </script>
+
+
+            </body>
+         </div>    
+   </div>
+</div>
+</html>

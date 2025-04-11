@@ -1,0 +1,82 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report All inks</title>
+</head>
+<link href="assets/css/report.css" rel="stylesheet" id="bootstrap-css">
+<div class="col-md-12">   
+    <div class="row">
+           
+           <div class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                              
+                <table>
+                    <tr>
+                        <td><img src="assets/img/logo.jpg" alt="MGDC" height="100"/></td>
+                        <td><div  style="width:50px"></div></td>
+                        <td bgcolor="white" style="width:100%;"><center><h1 >All Inks Report</h1></center></td>
+                    </tr>
+                    </table>
+                <hr>
+                          
+               
+               <div>
+                   <table class="table table-bordered">
+                       <thead>
+                           <tr>
+                               <th>Ink Id</th>
+                               <th>Ink Model</th>
+                               <th>Start Quantity</th>
+                               <th>Current Quentity</th>
+                               <th>Total Requests</th>
+                               <th>Total Adds</th>
+                               <th style="width: 150px;">Notes</th>
+                           </tr>
+                       </thead>
+                       <tbody id="reportData"> </tbody>
+                   </table>
+               </div>
+
+               <div style="height: 100;"></div>
+
+
+               <div class="row">
+                   <div class="receipt-header receipt-header-mid receipt-footer">
+                       <div class="col-xs-8 col-sm-8 col-md-8 text-left">
+                           <div class="receipt-right">
+                               <p><b id='date-time'>Date : </b></p>
+                               <h2><strong>signature: </strong></h2>>
+                           </div>
+                       </div>
+                       <div class="col-xs-4 col-sm-4 col-md-4">
+                       </div>
+                   </div>
+               </div>
+               
+           </div>    
+       </div>
+   </div>
+
+   <script>
+    var dt = new Date();
+    document.getElementById('date-time').innerHTML=dt;
+    data= <%- JSON.stringify(inks) %>;
+    console.log(<%- JSON.stringify(inks) %>);
+
+    var table = document.getElementById("reportData");
+    table.innerHTML="";
+    var tr="";
+    data.forEach(x=>{
+        tr+='<tr>';
+        tr+='<td><h3><center>' + x.Ink_id +'</center></h3></td>'
+            +'<td><h3><center>'+ x.Ink_model +'</center></h3></td>'
+            +'<td><h3><center>'+ x.Start_quantity+'</center></h3></td>'
+            +'<td><h3><center>'+ x.Now_quantity+'</center></h3></td>'
+            +'<td><h3><center>'+ x.Total_requests+'</center></h3></td>'
+            +'<td><h3><center>'+ x.Total_adds+'</center></h3></td>';
+
+        tr+='</tr>'
+
+    })
+    table.innerHTML+=tr;
+
+    </script>
