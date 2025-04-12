@@ -189,3 +189,14 @@ resource "aws_instance" "worker" {
     Name = "Swarm-Worker"
   }
 }
+# Elastic IP for Manager
+resource "aws_eip" "manager_eip" {
+  instance = aws_instance.manager.id
+  vpc      = true
+}
+
+# Elastic IP for Worker
+resource "aws_eip" "worker_eip" {
+  instance = aws_instance.worker.id
+  vpc      = true
+}
