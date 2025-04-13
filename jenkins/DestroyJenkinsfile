@@ -10,7 +10,8 @@ pipeline {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
 		    sh '''
-                        terraform init
+                        terraform workspace select $TF_WORKSPACE
+			terraform init
                         terraform destroy -auto-approve
                     '''
 
