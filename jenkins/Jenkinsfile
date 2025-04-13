@@ -4,6 +4,9 @@ pipeline {
         CREDENTIALS = credentials('dockerhub')
         AWS_DEFAULT_REGION = 'us-east-1'
   }
+  parameters {
+        string(name: 'TF_WORKSPACE', defaultValue: 'dev', description: 'Terraform Workspace')
+    }
   stages {
     stage('Checkout') {
             steps {
@@ -16,9 +19,10 @@ pipeline {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh '''
                         terraform init
-                        terraform plan 
+                        terraform plan
+			terraform workspace list
+                   	terraform workspace select ${TF_WORKSPACE} || terraform workspace new ${TF_WORKSPACE} 
                         terraform apply -auto-approve 
-                        terraform destroy -auto-approve 
                     ''' 
                 }
                 
