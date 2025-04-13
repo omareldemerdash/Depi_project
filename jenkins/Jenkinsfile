@@ -19,10 +19,10 @@ pipeline {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                     sh '''
                         terraform init
-                        terraform plan
 			terraform workspace list
                    	terraform workspace select ${TF_WORKSPACE} || terraform workspace new ${TF_WORKSPACE} 
-                        terraform apply -auto-approve 
+			terraform plan -out=tfplan
+                        terraform apply -auto-approve tfplan 
                     ''' 
                 }
                 
