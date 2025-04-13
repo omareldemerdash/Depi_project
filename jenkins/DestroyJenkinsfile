@@ -6,13 +6,18 @@ pipeline {
 	TF_WORKSPACE          = 'dev'
   }
   stages {
+     stage('Checkout') {
+            steps {
+                git url: 'https://github.com/omareldemerdash/Depi_project.git', branch: 'main'
+            }
+        }
+
     stage('Terraform destroy') {
             steps {
                 withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
 		    sh '''
-                        terraform workspace select $TF_WORKSPACE
 			terraform init
-                        terraform destroy -auto-approve
+                        terraform destroy -auto-approve tfplan
                     '''
 
                 }
