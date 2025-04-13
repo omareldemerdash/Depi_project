@@ -1,0 +1,22 @@
+- name: Set up NGINX reverse proxy on Amazon Linux
+  hosts: nginx
+  become: true
+  tasks:
+    - name: Install NGINX
+      yum:
+        name: nginx
+        state: present
+
+    - name: Upload NGINX configuration
+      template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/nginx.conf
+        mode: '0644'
+        backup: yes
+
+    - name: Start and enable NGINX
+      systemd:
+        name: nginx
+        state: restarted
+        enabled: yes
+
