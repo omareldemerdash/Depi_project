@@ -44,21 +44,6 @@ pipeline {
             }
         }
 
-        stage('Docker Build & Push') {
-            when {
-                expression { params.ACTION == 'apply' }
-            }
-            steps {
-                sh '''
-                    docker build -t omareldemerdash28/inks-db:latest -f Dockerfile.db  .;
-                    docker build -t omareldemerdash28/inks-app:latest -f Dockerfile.app .;
-                    echo $CREDENTIALS_PSW | docker login -u $CREDENTIALS_USR --password-stdin;
-                    docker push omareldemerdash28/inks-db:latest
-                    echo $CREDENTIALS_PSW | docker login -u $CREDENTIALS_USR --password-stdin;
-                    docker push omareldemerdash28/inks-app:latest
-                '''
-            }
-        }
 	stage('Get Manager IP') {
     when {
         expression { params.ACTION == 'apply' }
@@ -76,7 +61,7 @@ pipeline {
 	stage('Docker run') {
             steps {
                 sh '''
-			ssh -i "my_key" ec2-user@$MANAGER_IP docker node ls
+			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker node ls
                 '''
             }
         }
