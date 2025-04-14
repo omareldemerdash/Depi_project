@@ -61,6 +61,7 @@ pipeline {
 	stage('Docker run') {
             steps {
                 sh '''
+			chmod 600 my_key
 			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker node ls
                 '''
             }
