@@ -62,7 +62,8 @@ pipeline {
             steps {
                 sh '''
 			chmod 600 my_key
-			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker node ls
+			scp -o StrictHostKeyChecking=no -i "my_key" ./Depi_project ec2-user@$MANAGER_IP:/home/ec2-user/
+			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker stack deploy -c docker-stack.yml inksmanager
                 '''
             }
         }
