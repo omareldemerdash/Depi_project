@@ -59,6 +59,28 @@ pipeline {
                 '''
             }
         }
+	stage('Get Manager IP') {
+    when {
+        expression { params.ACTION == 'apply' }
+    }
+    steps {
+        script {
+            env.MANAGER_IP = sh(
+                script: "terraform output -raw manager_public_ip",
+                returnStdout: true
+            ).trim()
+            echo "Manager Public IP: ${env.MANAGER_IP}"
+        }
+    }
+}
+	stage('Docker run') {
+            steps {
+                sh '''
+			ssh -i "my_key" ec2-user@$MANAGER_IP docker node ls
+                '''
+            }
+        }
+
     }
 }
 
