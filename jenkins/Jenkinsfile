@@ -55,7 +55,7 @@ pipeline {
                 returnStdout: true
             ).trim()
             echo "Manager Public IP: ${env.MANAGER_IP}"
-	    chmod 600 my_key
+	    sh 'chmod 600 my_key'
         }
     }
 }
