@@ -70,7 +70,7 @@ pipeline {
 		 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP git clone https://github.com/omareldemerdash/Depi_project.git
                  ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP <<EOF
 											cd Depi_project
-											#sleep 60
+											sleep 60
  											docker build -t omareldemerdash28/inks-db:latest -f Dockerfile.db .;
 											echo $CREDENTIALS_PSW |docker login -u $CREDENTIALS_USR --password-stdin
 											docker push omareldemerdash28/inks-db:latest
@@ -99,8 +99,7 @@ pipeline {
             }
             steps {
                 sh '''
-			ssh -o StrictHostKeyChecking=no -i my_key ec2-user@$MANAGER_IP<<EOF
-				set -x
+			#ssh -o StrictHostKeyChecking=no -i my_key ec2-user@$MANAGER_IP<<EOF
 				sudo yum install -y jq curl
 				sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   				sudo chmod +x /usr/local/bin/docker-compose
