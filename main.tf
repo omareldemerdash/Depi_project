@@ -179,7 +179,7 @@ resource "aws_instance" "worker" {
               amazon-linux-extras install docker -y
               service docker start
               systemctl enable docker
-              usermod -a -G docker ec2-user
+              usermod -aG docker ec2-user
               sleep 60
               TOKEN=$(aws s3 cp s3://${aws_s3_bucket.bucket.bucket}/swarm_token.txt -)
               docker swarm join --token $TOKEN ${aws_instance.manager.private_ip}:2377
