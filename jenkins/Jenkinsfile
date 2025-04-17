@@ -113,9 +113,6 @@ pipeline {
             }
             steps {
                 sh '''
-                if ! command -v ansible > /dev/null; then
-                    sudo yum install -y ansible 
-                fi
 		sed 's/{{ ec2_ip }}/$NGINX_IP/' inventory.ini > inventory.ini
                 ansible-playbook -i inventory.ini nginx.yml --extra-vars "app_ip=$MANAGER_IP app_port=3000"
                 '''
