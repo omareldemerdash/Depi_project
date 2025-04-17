@@ -98,10 +98,7 @@ pipeline {
             }
             steps {
                 sh '''
-                        ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker run -d --name prometheus-docker \
-  -p 9090:9090 \
-  --mount type=bind,source=/home/ec2-user/prometheus.yml,target=/etc/prometheus/prometheus.yml \
-  prom/prometheus
+                        ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker run -d --name prometheus-docker -p 9090:9090 --mount type=bind,source=/home/ec2-user/Depi_project/prometheus.yml,target=/etc/prometheus/prometheus.yml prom/prometheus
 			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker run -d --name grafana-docker -p 3001:3000 -v grafana_data:/var/lib/grafana --network monitoring_default grafana/grafana
                 '''
             }

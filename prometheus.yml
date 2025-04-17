@@ -1,0 +1,16 @@
+global : 
+  scrape_interval : 15s 
+    
+scrape_config : 
+  - job_name : 'prometheus' 
+    scrape_interval : 5s 
+    static_config: 
+      - targets: [ 'localhost:9090']
+  - job_name: 'node_exporter' 
+    static_configs: 
+      - targets : ['node_exporter:9100']
+
+volumes : 
+  - /temp/prometheus:/prometheus
+  - /home/johnydev/Documents/Work/Locally/prometheus.yml:/etc/prometheus/prometheus.yml
+  
