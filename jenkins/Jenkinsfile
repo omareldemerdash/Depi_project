@@ -75,6 +75,9 @@ pipeline {
         }
 
 	stage('Docker run') {
+	     when {
+                expression { params.ACTION == 'apply' }
+            }
             steps {
                 sh '''
 			chmod 600 my_key
