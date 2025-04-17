@@ -92,6 +92,18 @@ pipeline {
                 '''
             }
         }
+	stage('configure Prometheus') {
+             when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps {
+                sh '''
+                        ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker run -d --name prometheus-docker -p 9090:9090 --mount type=bind,source=$PWD/prometheus.yml,target.yml,target=/etc/prometheus/prometheus.yml  --network monitoring_default prom/prometheus
+			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker run -d --name grafana-docker -p 3001:3000 -v grafana_data:/var/lib/grafana --network monitoring_default grafana/grafana
+                '''
+            }
+        }
+
 	 stage('Get Nginx IP') {
     when {
         expression { params.ACTION == 'apply' }
@@ -107,12 +119,13 @@ pipeline {
     }
 }
 
-	stage('Install Ansible if not exists') {
+	stage('Configure Nginx with Ansible') {
 	    when {
                 expression { params.ACTION == 'apply' }
             }
             steps {
                 sh '''
+		echo "NGINX IP: $NGINX_IP"
 		sed 's/{{ ec2_ip }}/$NGINX_IP/' inventory.ini > inventory_real.ini
                 ansible-playbook -i inventory_real.ini nginx.yml --extra-vars "app_ip=$MANAGER_IP app_port=3000"
                 '''
