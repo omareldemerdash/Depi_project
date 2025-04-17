@@ -203,3 +203,25 @@ resource "aws_eip" "worker_eip" {
 output "manager_public_ip" {
   value = aws_eip.manager_eip.public_ip
 }
+resource "aws_instance" "nginx_instance" {
+  ami                    = "ami-0c02fb55956c7d316"
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.main_subnet.id
+  vpc_security_group_ids = [aws_security_group.swarm_sg.id]
+  key_name               = aws_key_pair.deployer.key_name
+  associate_public_ip_address = true
+  iam_instance_profile   = aws_iam_instance_profile.ssm_instance_profile.name
+
+  tags = {
+    Name = "NGINX-Instance"
+  }
+}
+
+resource "aws_eip" "nginx_eip" {
+  instance = aws_instance.nginx_instance.id
+  vpc      = true
+}
+
+output "nginx_public_ip" {
+  value = aws_eip.nginx_eip.public_ip
+}
