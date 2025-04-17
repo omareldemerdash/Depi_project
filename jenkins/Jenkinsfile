@@ -115,6 +115,7 @@ pipeline {
             }
             steps {
                 sh """
+		export ANSIBLE_HOST_KEY_CHECKING=False
                 ansible-playbook -i inventory.ini nginx.yml --extra-vars "app_ip=$MANAGER_IP app_port=3000"
                 """
             }
