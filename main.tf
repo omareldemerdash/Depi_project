@@ -147,7 +147,6 @@ resource "aws_instance" "manager" {
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
-	      yum install git -y
               amazon-linux-extras install docker -y
               service docker start
               systemctl enable docker
