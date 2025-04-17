@@ -98,8 +98,12 @@ pipeline {
             }
             steps {
                 sh '''
-			 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP sudo chmod +x /usr/local/bin/docker-compose
+			ssh -o StrictHostKeyChecking=no -i my_key ec2-user@$MANAGER_IP<<EOF
+  sudo yum install -y jq
+  VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq -r .tag_name)
+  sudo curl -L "https://github.com/docker/compose/releases/download/${VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  sudo chmod +x /usr/local/bin/docker-compose
+
                         ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP <<EOF
 	cd Depi_project
 	docker-compose up -d
