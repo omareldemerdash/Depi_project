@@ -68,8 +68,7 @@ pipeline {
 		 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP sudo yum install -y git
 		 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP rm -rf Depi_project
 		 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP git clone https://github.com/omareldemerdash/Depi_project.git
-                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP cd Depi_project 
-		 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP sudo docker build -t omareldemerdash28/inks-db:latest -f Dockerfile.db  .;
+                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP cd Depi_project && sudo docker build -t omareldemerdash28/inks-db:latest -f Dockerfile.db .;
                  ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP sudo docker build -t omareldemerdash28/inks-app:latest -f Dockerfile.app .;
                  ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP "echo $CREDENTIALS_PSW |sudo docker login -u $CREDENTIALS_USR --password-stdin";
                  ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP sudo docker push omareldemerdash28/inks-db:latest
