@@ -58,6 +58,22 @@ pipeline {
         }
     }
 }
+	stage('Docker Build & Push') {
+            when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps {
+               sh '''
+                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker build -t omareldemerdash28/inks-db:latest -f Dockerfile.db  .;
+                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker build -t omareldemerdash28/inks-app:latest -f Dockerfile.app .;
+                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP "echo $CREDENTIALS_PSW | docker login -u $CREDENTIALS_USR --password-stdin";
+                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker push omareldemerdash28/inks-db:latest
+                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP "echo $CREDENTIALS_PSW | docker login -u $CREDENTIALS_USR --password-stdin";
+                 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker push omareldemerdash28/inks-app:latest
+               '''
+            }
+        }
+
 	stage('Docker run') {
             steps {
                 sh '''
