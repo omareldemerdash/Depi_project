@@ -1,35 +1,21 @@
 services:
-  db:
-    build:
-      context: .
-      target: db
-    environment:
-      MYSQL_ROOT_PASSWORD: your_root_password
-      MYSQL_DATABASE: inks_db
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      retries: 5
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
     volumes:
-      - db_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: always
 
-  app:
-    build:
-      context: .
-      target: app
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
-      db:
-        condition: service_healthy
+      - prometheus
+    restart: always
     environment:
-      DB_HOST: db
-      DB_USER: root
-      DB_PASSWORD: your_root_password
-      DB_NAME: inks_db
-
-volumes:
-  db_data:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
 
