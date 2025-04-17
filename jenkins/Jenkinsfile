@@ -55,6 +55,7 @@ pipeline {
                 returnStdout: true
             ).trim()
             echo "Manager Public IP: ${env.MANAGER_IP}"
+	    chmod 600 my_key
         }
     }
 }
@@ -80,7 +81,6 @@ pipeline {
             }
             steps {
                 sh '''
-			chmod 600 my_key
 			scp -r -o StrictHostKeyChecking=no -i "my_key" /var/jenkins_home/workspace/pipeline1  ec2-user@$MANAGER_IP:/home/ec2-user/
 			ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP docker stack deploy -c docker-stack.yml inksmanager
                 '''
