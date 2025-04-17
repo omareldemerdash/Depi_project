@@ -115,7 +115,7 @@ pipeline {
             }
             steps {
                 sh """
-                ansible-playbook -i inventory_real.ini nginx.yml --extra-vars "app_ip=$MANAGER_IP app_port=3000"
+                ansible-playbook -i inventory.ini nginx.yml --extra-vars "app_ip=$MANAGER_IP app_port=3000"
                 """
             }
         }	
