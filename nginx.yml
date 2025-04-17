@@ -2,6 +2,11 @@
   hosts: nginx
   become: true
   tasks:
+    - name: Enable NGINX in amazon-linux-extras
+      shell: amazon-linux-extras enable nginx1
+      args:
+        creates: /etc/yum.repos.d/amzn2extra-nginx1.repo
+
     - name: Install NGINX
       yum:
         name: nginx
