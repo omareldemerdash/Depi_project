@@ -76,11 +76,21 @@ pipeline {
 											docker build -t omareldemerdash28/inks-app:latest -f Dockerfile.app .
 											echo $CREDENTIALS_PSW |docker login -u $CREDENTIALS_USR --password-stdin
 											docker push omareldemerdash28/inks-app:latest
-											docker stack deploy -c docker-stack.yml inksmanager
                '''
             }
         }
-
+	stage('Docker run') {
+             when {
+                expression { params.ACTION == 'apply' }
+            }
+            steps {
+                sh '''
+                        ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP <<EOF
+ 											cd Depi_project
+											docker stack deploy -c docker-stack.yml inksmanager
+                '''
+            }
+        }
 
     }
 }
