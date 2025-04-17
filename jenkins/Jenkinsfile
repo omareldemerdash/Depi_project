@@ -115,8 +115,6 @@ pipeline {
             }
             steps {
                 sh """
-		echo "NGINX IP: $NGINX_IP"
-		sed 's/{{ ec2_ip }}/$NGINX_IP/' inventory.ini > inventory_real.ini
                 ansible-playbook -i inventory_real.ini nginx.yml --extra-vars "app_ip=$MANAGER_IP app_port=3000"
                 """
             }
