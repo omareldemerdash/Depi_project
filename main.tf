@@ -151,6 +151,10 @@ resource "aws_instance" "manager" {
               service docker start
               systemctl enable docker
               usermod -a -G docker ec2-user
+	      # Install Docker Compose
+              curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+              chmod +x /usr/local/bin/docker-compose
+ 	      ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
               docker swarm init --advertise-addr $(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
               docker swarm join-token worker -q > /tmp/swarm_token.txt
               aws s3 cp /tmp/swarm_token.txt s3://${aws_s3_bucket.bucket.bucket}/swarm_token.txt

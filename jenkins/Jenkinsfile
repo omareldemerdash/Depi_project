@@ -94,6 +94,18 @@ pipeline {
             }
         }
 
+	 stage('Run Docker Compose') {
+ 	     when {
+       		 expression { params.ACTION == 'apply' }
+   	     }
+   	     steps {
+       		  sh '''
+           		 ssh -o StrictHostKeyChecking=no -i "my_key" ec2-user@$MANAGER_IP <<EOF
+               		 cd Depi_project
+               		 docker-compose up -d
+       		  '''
+   	     }
+	 }
 	 stage('Get Nginx IP') {
     when {
         expression { params.ACTION == 'apply' }
