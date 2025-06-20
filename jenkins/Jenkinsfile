@@ -3,6 +3,9 @@ pipeline {
     parameters {
         choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Choose Terraform action to perform')
     }
+    parameters {
+        choice(name: 'TAG_TO_DEPLOY', choices: getGitTags() , description: 'Select the Git tag you want to deploy')
+    }
     environment {
         CREDENTIALS = credentials('dockerhub')
         AWS_DEFAULT_REGION = 'us-east-1'
@@ -11,7 +14,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/omareldemerdash/Depi_project.git', branch: 'main'
+		echo "Checking out tag: ${params.TAG_TO_DEPLOY}"
+		checkout([$class: 'GitSCM',
+		branches: [[name: "refs/tags/${params.TAG_TO_DEPLOY}"]],
+		userRemoteConfigs: [[url: 'https://github.com/omareldemerdash/Depi_project.git']]
+]) 
             }
         }
 
@@ -137,4 +144,7 @@ pipeline {
 
     }
 }
-
+def getGitTags() {
+  def tags = sh(script: "git ls-remote --tags https://your-repo.git | cut -d/ -f3 | grep -v '{}' | sort -r", returnStdout: true).trim().split('\n')
+  return tags.take(10).join('\n') 
+}
